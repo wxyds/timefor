@@ -20,13 +20,33 @@
   <body>
     <p id="nowDateTime"></p>
     <script>
-      window.addEventListener("load", function() {
+      function datetostr(date) {
+        var weekday = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+        var format = 'YYYY.MM.DD WW hh:mm:ss';
+ 
+        var replaceStrArray = {
+          'YYYY': date.getFullYear(),
+          'MM': ('0' + ((date.getMonth() + 1))).slice(-2),
+          'DD': ('0' + (date.getDate())).slice(-2),
+          'WW': weekday[date.getDay()],
+          'hh': ('0' + date.getHours()).slice(-2),
+          'mm': ('0' + date.getMinutes()).slice(-2),
+          'ss': ('0' + date.getSeconds()).slice(-2),
+        };
+        var replaceStr = '(' + Object.keys(replaceStrArray).join('|') + ')';
+        var regex = new RegExp(replaceStr, 'g');
+ 
+        return format.replace(regex, function (str) {
+            return replaceStrArray[str];
+        });
+      }
+      window.addEventListener("load", function () {
         var nowDateTime = document.getElementById("nowDateTime");
-        setInterval(function() {
+        setInterval(function () {
           var date = new Date();
-          nowDateTime.innerHTML = date;
+          nowDateTime.innerHTML = datetostr(date);
         }, 100);
-      }, false)
+      }, false);
     </script>
   </body>
 </html>
