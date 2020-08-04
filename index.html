@@ -19,11 +19,11 @@
   </head>
   <body>
     <p id="nowDateTime"></p>
-    <p><button type=button style="width: 100px; height: 40px; font-size: 20px" onclick="">start</button></p>
+    <p><button id="start" type=button style="width: 100px; height: 40px; font-size: 20px">start</button></p>
+    <div id="record"></div>
     <script>
-      function datetostr(date) {
+      function datetostr(date, format) {
         var weekday = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-        var format = 'YYYY.MM.DD WW hh:mm:ss';
  
         var replaceStrArray = {
           'YYYY': date.getFullYear(),
@@ -41,13 +41,23 @@
             return replaceStrArray[str];
         });
       }
+
       window.addEventListener("load", function () {
         var nowDateTime = document.getElementById("nowDateTime");
         setInterval(function () {
           var date = new Date();
-          nowDateTime.innerHTML = datetostr(date);
+          nowDateTime.innerHTML = datetostr(date, 'YYYY.MM.DD WW hh:mm:ss');
         }, 100);
       }, false);
+
+      document.getElementById("start").onclick = function () {
+        var record = document.getElementById("record");
+        var pnode = document.createElement('p');
+        var textNode = document.createTextNode(datetostr(new Date(), 'hh:mm:ss'));
+
+        pnode.appendChild(textNode);
+        record.appendChild(pnode);
+      }
     </script>
   </body>
 </html>
