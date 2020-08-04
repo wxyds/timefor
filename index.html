@@ -51,9 +51,16 @@
       }, false);
 
       document.getElementById("start").onclick = function () {
+        var nowTimeStr = datetostr(new Date(), 'hh:mm:ss');
         var record = document.getElementById("record");
+        var records = record.getElementsByTagName("p");
+        var length = records.length;
+        if (length != 0) {
+          var previous = records[length - 1].textContent;
+          records[length - 1].textContent = previous + " - " + nowTimeStr;
+        }
         var pnode = document.createElement('p');
-        var textNode = document.createTextNode(datetostr(new Date(), 'hh:mm:ss'));
+        var textNode = document.createTextNode(nowTimeStr);
 
         pnode.appendChild(textNode);
         record.appendChild(pnode);
