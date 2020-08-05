@@ -20,7 +20,10 @@
   <body>
     <p id="nowDateTime"></p>
     <p><button id="start" type=button style="width: 100px; height: 40px; font-size: 20px">start</button></p>
-    <div id="record"></div>
+    <table>
+      <tbody id="record">
+      </tbody>
+    </table>
     <script>
       function datetostr(date, format) {
         var weekday = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
@@ -53,17 +56,32 @@
       document.getElementById("start").onclick = function () {
         var nowTimeStr = datetostr(new Date(), 'hh:mm:ss');
         var record = document.getElementById("record");
-        var records = record.getElementsByTagName("p");
+        var records = record.getElementsByTagName("tr");
         var length = records.length;
         if (length != 0) {
-          var previous = records[length - 1].textContent;
-          records[length - 1].textContent = previous + " - " + nowTimeStr;
+          records[length - 1].getElementsByClassName("time")[0].getElementsByTagName("p")[0].textContent += nowTimeStr;
         }
-        var pnode = document.createElement('p');
-        var textNode = document.createTextNode(nowTimeStr);
+        var pNodeTime = document.createElement('p');
+        var textNodeTime = document.createTextNode(nowTimeStr + " - ");
+        pNodeTime.appendChild(textNodeTime);
 
-        pnode.appendChild(textNode);
-        record.appendChild(pnode);
+        var tdNodeTime = document.createElement("td");
+        tdNodeTime.classList.add("time");
+        tdNodeTime.style.width = '400px';
+        tdNodeTime.appendChild(pNodeTime);
+
+        var pNodeToDo = document.createElement('p');
+        var textNodeToDo = document.createTextNode("たすく");
+        pNodeToDo.appendChild(textNodeToDo);
+
+        var tdNodeToDo = document.createElement("td");
+        tdNodeToDo.appendChild(pNodeToDo);
+
+        var trNode = document.createElement("tr");
+        trNode.appendChild(tdNodeTime);
+        trNode.appendChild(tdNodeToDo);
+
+        record.appendChild(trNode);
       }
     </script>
   </body>
