@@ -19,7 +19,10 @@
   </head>
   <body>
     <p id="nowDateTime"></p>
-    <p><button id="start" type=button style="width: 100px; height: 40px; font-size: 20px">start</button></p>
+    <p>
+      <input type="text" id="todo" style="width: 300px; height: 35px; font-size: 25px">
+      <button id="start" type=button style="width: 100px; height: 40px; font-size: 25px">start</button>
+    </p>
     <table>
       <tbody id="record">
       </tbody>
@@ -71,7 +74,7 @@
         tdNodeTime.appendChild(pNodeTime);
 
         var pNodeToDo = document.createElement('p');
-        var textNodeToDo = document.createTextNode("たすく");
+        var textNodeToDo = document.createTextNode(document.getElementById("todo").value);
         pNodeToDo.appendChild(textNodeToDo);
 
         var tdNodeToDo = document.createElement("td");
@@ -80,8 +83,10 @@
         var trNode = document.createElement("tr");
         trNode.appendChild(tdNodeTime);
         trNode.appendChild(tdNodeToDo);
+        trNode.style.height = '50px';
 
         record.appendChild(trNode);
+        document.getElementById("todo").value = '';
       }
     </script>
   </body>
