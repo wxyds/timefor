@@ -19,10 +19,17 @@
   </head>
   <body>
     <p id="nowDateTime"></p>
+    <p>
+      <input type="text" id="todo" style="width: 300px; height: 35px; font-size: 25px">
+      <button id="start" type=button style="width: 100px; height: 40px; font-size: 25px">start</button>
+    </p>
+    <table>
+      <tbody id="record">
+      </tbody>
+    </table>
     <script>
-      function datetostr(date) {
+      function datetostr(date, format) {
         var weekday = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-        var format = 'YYYY.MM.DD WW hh:mm:ss';
  
         var replaceStrArray = {
           'YYYY': date.getFullYear(),
@@ -40,13 +47,47 @@
             return replaceStrArray[str];
         });
       }
+
       window.addEventListener("load", function () {
         var nowDateTime = document.getElementById("nowDateTime");
         setInterval(function () {
           var date = new Date();
-          nowDateTime.innerHTML = datetostr(date);
+          nowDateTime.innerHTML = datetostr(date, 'YYYY.MM.DD WW hh:mm:ss');
         }, 100);
       }, false);
+
+      document.getElementById("start").onclick = function () {
+        var nowTimeStr = datetostr(new Date(), 'hh:mm:ss');
+        var record = document.getElementById("record");
+        var records = record.getElementsByTagName("tr");
+        var length = records.length;
+        if (length != 0) {
+          records[length - 1].getElementsByClassName("time")[0].getElementsByTagName("p")[0].textContent += nowTimeStr;
+        }
+        var pNodeTime = document.createElement('p');
+        var textNodeTime = document.createTextNode(nowTimeStr + " - ");
+        pNodeTime.appendChild(textNodeTime);
+
+        var tdNodeTime = document.createElement("td");
+        tdNodeTime.classList.add("time");
+        tdNodeTime.style.width = '400px';
+        tdNodeTime.appendChild(pNodeTime);
+
+        var pNodeToDo = document.createElement('p');
+        var textNodeToDo = document.createTextNode(document.getElementById("todo").value);
+        pNodeToDo.appendChild(textNodeToDo);
+
+        var tdNodeToDo = document.createElement("td");
+        tdNodeToDo.appendChild(pNodeToDo);
+
+        var trNode = document.createElement("tr");
+        trNode.appendChild(tdNodeTime);
+        trNode.appendChild(tdNodeToDo);
+        trNode.style.height = '50px';
+
+        record.appendChild(trNode);
+        document.getElementById("todo").value = '';
+      }
     </script>
   </body>
 </html>
